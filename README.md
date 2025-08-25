@@ -34,7 +34,7 @@ Ini adalah layanan web untuk mengelola koleksi musik.
 1.  **Clone repositori ini:**
 
     ```bash
-    git clone [URL_REPOSITORI](https://github.com/VladR382/be-open-music)
+    git clone https://github.com/VladR382/be-open-music/tree/V1
     cd be-open-music
     ```
 
