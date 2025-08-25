@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 
 const pool = new Pool({
   user: process.env.PGUSER,
@@ -17,9 +17,8 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
-
-pool.on("error", (err) => {
-  console.error("Database connection error:", err);
+pool.on('error', (err) => {
+  console.error('Database connection error:', err);
 });
 
 module.exports = pool;

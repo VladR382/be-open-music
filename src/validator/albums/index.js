@@ -1,12 +1,14 @@
-const { AlbumPayloadSchema } = require("./schema")
+const Boom = require('@hapi/boom'); // 1. Import Boom
+const { AlbumPayloadSchema } = require('./schema');
 
 const AlbumsValidator = {
   validateAlbumPayload: (payload) => {
-    const validationResult = AlbumPayloadSchema.validate(payload)
+    const validationResult = AlbumPayloadSchema.validate(payload);
     if (validationResult.error) {
-      throw new Error(validationResult.error.message)
+      // 2. Gunakan Boom untuk error 400
+      throw Boom.badRequest(validationResult.error.message);
     }
   },
-}
+};
 
-module.exports = AlbumsValidator
+module.exports = AlbumsValidator;

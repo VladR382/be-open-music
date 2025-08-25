@@ -1,65 +1,39 @@
-require("dotenv").config()
-const Hapi = require("@hapi/hapi")
-const albumsRoutes = require("./routes/albums")
-const songsRoutes = require("./routes/songs")
+require('dotenv').config();
+const Hapi = require('@hapi/hapi');
+const albumsRoutes = require('./routes/albums');
+const songsRoutes = require('./routes/songs');
+const errorHandler = require('./plugins/errorHandler'); // 1. Impor plugin
 
 const init = async () => {
   const server = Hapi.server({
     port: process.env.PORT || 5000,
-    host: process.env.HOST || "localhost",
+    host: process.env.HOST || 'localhost',
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ['*'],
       },
     },
-  })
+  });
 
-  // Register routes
-  server.route(albumsRoutes)
-  server.route(songsRoutes)
+  // 2. Daftarkan plugin dan rute
+  await server.register([
+    {
+      plugin: errorHandler,
+    },
+  ]);
 
-  // Global error handling
-  server.ext("onPreResponse", (request, h) => {
-    const { response } = request
+  server.route(albumsRoutes);
+  server.route(songsRoutes);
 
-    if (response.isBoom) {
-      if (response.output.statusCode === 400) {
-        return h
-          .response({
-            status: "fail",
-            message: response.message,
-          })
-          .code(400)
-      }
+  // 3. Logika error handling lama sudah dihapus dari sini
 
-      if (response.output.statusCode === 404) {
-        return h
-          .response({
-            status: "fail",
-            message: response.message,
-          })
-          .code(404)
-      }
+  await server.start();
+  console.log(`Server berjalan pada ${server.info.uri}`);
+};
 
-      // Server error (500)
-      return h
-        .response({
-          status: "error",
-          message: "Terjadi kegagalan pada server kami",
-        })
-        .code(500)
-    }
+process.on('unhandledRejection', (err) => {
+  console.log(err);
+  process.exit(1);
+});
 
-    return response.continue || response
-  })
-
-  await server.start()
-  console.log(`Server berjalan pada ${server.info.uri}`)
-}
-
-process.on("unhandledRejection", (err) => {
-  console.log(err)
-  process.exit(1)
-})
-
-init()
+init();
