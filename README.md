@@ -1,6 +1,6 @@
 # Open Music API
 
-Open Music API v1 adalah sebuah layanan web API untuk mengelola koleksi musik. Proyek ini dibangun menggunakan Hapi sebagai *framework* utama dan PostgreSQL sebagai basis datanya.
+Open Music API adalah sebuah layanan web API untuk mengelola koleksi musik. Proyek ini dibangun menggunakan Hapi sebagai *framework* utama dan PostgreSQL sebagai basis datanya.
 
 ## Fitur
 
